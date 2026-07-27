@@ -355,7 +355,7 @@ fun AssetDetailContent(
                                 modifier = Modifier.fillMaxWidth()
                             ) {
                                 Text(
-                                    text = formatAssetDetailCurrency(calculatedAsset.currentValue, asset.currency),
+                                    text = formatAssetDetailCurrency(calculatedAsset.currentValue, asset.currency, isMetal = asset.type == com.antigravity.networthtracker.domain.model.AssetType.METAL),
                                     fontSize = 18.sp,
                                     fontWeight = FontWeight.Bold,
                                     color = Color.White,
@@ -428,6 +428,7 @@ fun AssetDetailContent(
                         TransactionRow(
                             transaction = transaction,
                             currency = asset.currency,
+                            assetType = asset.type,
                             onClick = { onTransactionClick(transaction) }
                         )
                     },
@@ -700,8 +701,9 @@ fun SummaryPanel(
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     val costValue = if (calc.asset.isAutoUpdate && calc.totalQuantity > 0) calc.totalCost / calc.totalQuantity else calc.totalCost
+                    val isMetal = calc.asset.type == com.antigravity.networthtracker.domain.model.AssetType.METAL
                     Text(
-                        text = formatAssetDetailCurrency(costValue, calc.asset.currency),
+                        text = formatAssetDetailCurrency(costValue, calc.asset.currency, isMetal = isMetal),
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White
@@ -722,8 +724,9 @@ fun SummaryPanel(
                         color = TextGraySecondary
                     )
                     Spacer(modifier = Modifier.height(4.dp))
+                    val isMetal = calc.asset.type == com.antigravity.networthtracker.domain.model.AssetType.METAL
                     Text(
-                        text = formatAssetDetailCurrency(calc.currentPrice, calc.asset.currency),
+                        text = formatAssetDetailCurrency(calc.currentPrice, calc.asset.currency, isMetal = isMetal),
                         fontSize = 15.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White
@@ -738,6 +741,7 @@ fun SummaryPanel(
 fun TransactionRow(
     transaction: Transaction,
     currency: String,
+    assetType: com.antigravity.networthtracker.domain.model.AssetType? = null,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -770,8 +774,9 @@ fun TransactionRow(
         }
 
         Row(verticalAlignment = Alignment.CenterVertically) {
+            val isMetal = assetType == com.antigravity.networthtracker.domain.model.AssetType.METAL
             Text(
-                text = formatAssetDetailCurrency(transaction.price, currency),
+                text = formatAssetDetailCurrency(transaction.price, currency, isMetal = isMetal),
                 fontSize = 15.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
@@ -1228,7 +1233,7 @@ fun formatIntegerValue(amount: Double, currency: String): String {
     return "$formatted $currency"
 }
 
-fun formatAssetDetailCurrency(amount: Double, currency: String): String {
+fun formatAssetDetailCurrency(amount: Double, currency: String, isMetal: Boolean = false): String {
     val isTry = currency.uppercase() in listOf("TRY", "TL")
     val locale = when {
         isTry -> java.util.Locale("tr", "TR")
@@ -1236,13 +1241,15 @@ fun formatAssetDetailCurrency(amount: Double, currency: String): String {
         else -> java.util.Locale.US
     }
     val nf = java.text.NumberFormat.getNumberInstance(locale) as java.text.DecimalFormat
-    if (amount % 1.0 == 0.0) {
+    if (isMetal || amount % 1.0 == 0.0) {
         nf.applyPattern("#,##0")
+        val formatted = nf.format(kotlin.math.round(amount))
+        return "$formatted $currency"
     } else {
         nf.applyPattern("#,##0.00###")
+        val formatted = nf.format(amount)
+        return "$formatted $currency"
     }
-    val formatted = nf.format(amount)
-    return "$formatted $currency"
 }
 
 @Composable
