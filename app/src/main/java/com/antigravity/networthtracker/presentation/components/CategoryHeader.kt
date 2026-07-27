@@ -156,12 +156,18 @@ fun CategoryHeader(
 
         // Middle: Category Name & Weight Progress Bar
         Column(modifier = Modifier.weight(1f)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Text(
                     text = stringResource(id = type.getLocalizedNameRes()),
-                    fontSize = 13.sp,
+                    fontSize = 12.5.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    color = Color.White,
+                    maxLines = 1,
+                    softWrap = false,
+                    overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                 )
                 if (weightedChangePercent != 0.0) {
                     Spacer(modifier = Modifier.width(6.dp))
@@ -172,7 +178,9 @@ fun CategoryHeader(
                         text = text,
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Bold,
-                        color = changeColor
+                        color = changeColor,
+                        maxLines = 1,
+                        softWrap = false
                     )
                 }
             }

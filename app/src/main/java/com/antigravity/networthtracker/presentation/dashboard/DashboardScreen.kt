@@ -325,7 +325,7 @@ fun DashboardScreen(
                                             onAddAssetClick(type)
                                         },
                                         modifier = Modifier
-                                            .width(76.dp)
+                                            .width(84.dp)
                                             .height(88.dp),
                                         colors = CardDefaults.cardColors(
                                             containerColor = MaterialTheme.colorScheme.surface
@@ -339,7 +339,7 @@ fun DashboardScreen(
                                         Column(
                                             modifier = Modifier
                                                 .fillMaxSize()
-                                                .padding(6.dp),
+                                                .padding(horizontal = 4.dp, vertical = 6.dp),
                                             horizontalAlignment = Alignment.CenterHorizontally,
                                             verticalArrangement = Arrangement.Center
                                         ) {
@@ -376,12 +376,13 @@ fun DashboardScreen(
                                             Spacer(modifier = Modifier.height(6.dp))
                                             Text(
                                                 text = stringResource(id = type.getLocalizedNameRes()),
-                                                fontSize = 10.sp,
-                                                fontWeight = FontWeight.SemiBold,
+                                                fontSize = 9.5.sp,
+                                                fontWeight = FontWeight.Bold,
                                                 color = Color.White,
                                                 textAlign = TextAlign.Center,
-                                                maxLines = 2,
-                                                lineHeight = 11.sp
+                                                maxLines = 1,
+                                                softWrap = false,
+                                                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                                             )
                                         }
                                     }

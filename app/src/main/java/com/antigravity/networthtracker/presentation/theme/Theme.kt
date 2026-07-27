@@ -5,6 +5,10 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
+
 private val DarkColorScheme = darkColorScheme(
     primary = TradingViewBlue,
     onPrimary = Color.White,
@@ -23,8 +27,16 @@ private val DarkColorScheme = darkColorScheme(
 fun NetWorthTrackerTheme(
     content: @Composable () -> Unit
 ) {
-    MaterialTheme(
-        colorScheme = DarkColorScheme,
-        content = content
-    )
+    val currentDensity = LocalDensity.current
+    CompositionLocalProvider(
+        LocalDensity provides Density(
+            density = currentDensity.density,
+            fontScale = 1.0f
+        )
+    ) {
+        MaterialTheme(
+            colorScheme = DarkColorScheme,
+            content = content
+        )
+    }
 }
