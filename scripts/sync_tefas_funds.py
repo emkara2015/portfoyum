@@ -2,6 +2,7 @@ import requests
 import re
 import json
 import time
+import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 supabase_url = "https://pxgbiedahlssklfjzwor.supabase.co/rest/v1/tefas_funds"
@@ -57,6 +58,8 @@ def process_fund(code):
         y1y = re.search(r'\\"1y\\":\s*\{[^}]*\\"yield\\":\s*([0-9\.-]+)', html)
         yytd = re.search(r'\\"ytd\\":\s*\{[^}]*\\"yield\\":\s*([0-9\.-]+)', html)
         
+        now_iso = datetime.datetime.now(datetime.timezone.utc).isoformat()
+        
         payload = {
             "price": price,
             "tax_percent": tax,
@@ -65,7 +68,8 @@ def process_fund(code):
             "yield_3m": float(y3m.group(1)) if y3m else None,
             "yield_6m": float(y6m.group(1)) if y6m else None,
             "yield_1y": float(y1y.group(1)) if y1y else None,
-            "yield_ytd": float(yytd.group(1)) if yytd else None
+            "yield_ytd": float(yytd.group(1)) if yytd else None,
+            "updated_at": now_iso
         }
         
         res = requests.patch(f"{supabase_url}?symbol=eq.{code}", headers=patch_headers, json=payload, timeout=8)
