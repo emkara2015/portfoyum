@@ -25,4 +25,4 @@ jobs:
 
       - name: Run TEFAŞ Sync Script
         run: |
-          python scratch/populate_all_2802_funds_to_supabase.py
+          python scripts/sync_tefas_funds.py
