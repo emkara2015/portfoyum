@@ -1,0 +1,196 @@
+<resources>
+    <string name="app_name">Portföyüm</string>
+    
+    <!-- Dashboard Screen -->
+    <string name="total_net_worth">TOPLAM NET DEĞER</string>
+    <string name="assets">VARLIKLAR</string>
+    <string name="liabilities">BORÇLAR</string>
+    <string name="my_portfolio">VARLIKLARIM</string>
+    <string name="empty_portfolio">Portföyünüz boş.</string>
+    <string name="error_unexpected">Beklenmeyen hata.</string>
+    <string name="btn_retry">Tekrar Dene</string>
+    <string name="desc_add_asset">Varlık Ekle</string>
+    <string name="desc_refresh">Yenile</string>
+    <string name="desc_back">Geri</string>
+    <string name="empty_state_title">Portföyünüz Henüz Boş</string>
+    <string name="empty_state_desc">Toplam net değerinizi hesaplayabilmemiz için ilk finansal varlığınızı veya borç kaleminizi ekleyin.</string>
+    <string name="btn_add_first_asset">İlk Varlığını Ekle</string>
+    <string name="error_state_title">Bir Hata Oluştu</string>
+    
+    <!-- Add Asset Screen -->
+    <string name="title_add_asset">Yeni Varlık Ekle</string>
+    <string name="title_select_asset_type">Varlık Türü Seçin</string>
+    <string name="category_label">KATEGORİ: %1$s</string>
+    <string name="field_asset_name">Varlık Adı</string>
+    <string name="field_symbol_code">Sembol Kodu</string>
+    <string name="field_quantity">Adet / Lot Miktarı</string>
+    <string name="field_unit_price">Birim Alış Fiyatı</string>
+    <string name="field_total_value">Tahmini Toplam Değer</string>
+    <string name="field_purchase_date">Alış Tarihi</string>
+    <string name="field_debt_amount">Toplam Borç Tutarı</string>
+    <string name="field_value_balance">Değer / Bakiye</string>
+    <string name="label_currency">Para Birimi</string>
+    <string name="btn_save">Kaydet</string>
+    <string name="btn_cancel">İptal</string>
+    <string name="btn_add_debt">Borç Ekle</string>
+    <string name="btn_add_asset">Varlık Ekle</string>
+    <string name="error_invalid_symbol">Lütfen sembol kodu girin.</string>
+    <string name="error_invalid_name">Lütfen varlık adı girin.</string>
+    <string name="error_invalid_quantity">Lütfen geçerli bir miktar (0\'dan büyük) girin.</string>
+    <string name="error_invalid_price">Lütfen geçerli bir birim fiyat veya değer girin.</string>
+    <string name="error_symbol_not_found">Bu hisse/kripto kodu veritabanımızda bulunamadı. Lütfen geçerli bir kod girin (Örn: THYAO, BTC, AAPL).</string>
+    <string name="error_save_failed">Varlık eklenirken hata oluştu.</string>
+    <string name="error_enter_symbol_first">Lütfen önce sembol girin.</string>
+    <string name="error_fetch_price_failed">Fiyat çekilemedi</string>
+    
+    <!-- Asset Detail Screen -->
+    <string name="title_asset_detail">Varlık Detayı</string>
+    <string name="btn_delete_asset">Varlığı Sil</string>
+    <string name="header_tx_history">İŞLEM GEÇMİŞİ</string>
+    <string name="label_current_value">GÜNCEL DEĞER</string>
+    <string name="box_total_quantity">Toplam Miktar</string>
+    <string name="box_cost_unit">Maliyet (Birim)</string>
+    <string name="box_total_invested">Toplam Yatırılan</string>
+    <string name="box_current_price">Güncel Fiyat</string>
+    <string name="row_quantity">Miktar: %1$s</string>
+    <string name="row_date">Tarih: %1$s</string>
+    <string name="dialog_delete_title">Varlığı Sil</string>
+    <string name="dialog_delete_text">Bu varlığı ve tüm işlem geçmişini tamamen silmek istediğinize emin misiniz?</string>
+    <string name="dialog_delete_confirm">Sil</string>
+    <string name="dialog_edit_tx_title">İşlemi Düzenle</string>
+    <string name="dialog_select">Seç</string>
+    
+    <!-- Categories -->
+    <string name="cat_stock">HİSSE SENEDİ</string>
+    <string name="cat_crypto">KRİPTO PARA</string>
+    <string name="cat_metal">KIYMETLİ MADEN</string>
+    <string name="cat_fund">YATIRIM FONU</string>
+    <string name="cat_eurobond">EUROBOND</string>
+    <string name="cat_cash">NAKİT</string>
+    <string name="cat_real_estate">GAYRİMENKUL</string>
+    <string name="cat_vehicle">ARAÇ</string>
+    <string name="cat_bes">BES</string>
+    <string name="cat_debt">BORÇ</string>
+    
+    <!-- Category Descriptions -->
+    <string name="desc_cat_stock">Borsa yatırımları</string>
+    <string name="desc_cat_crypto">BTC, ETH vb.</string>
+    <string name="desc_cat_metal">Altın, gümüş vb.</string>
+    <string name="desc_cat_fund">TEFAS fonları</string>
+    <string name="desc_cat_eurobond">Döviz borçlanma senedi</string>
+    <string name="desc_cat_cash">Banka hesapları, nakit</string>
+    <string name="desc_cat_real_estate">Ev, arsa vb.</string>
+    <string name="desc_cat_vehicle">Otomobil, motor vb.</string>
+    <string name="desc_cat_bes">Bireysel Emeklilik</string>
+    <string name="desc_cat_debt">Kredi, taksitler vb.</string>
+    <!-- Sorting & Charts -->
+    <string name="sort_label_value_desc">Değer (Yüksek)</string>
+    <string name="sort_label_value_asc">Değer (Düşük)</string>
+    <string name="sort_label_alphabetical">Alfabetik</string>
+    <string name="sort_desc_value_desc">Değere Göre (Yüksekten Düşüğe)</string>
+    <string name="sort_desc_value_asc">Değere Göre (Düşükten Yükseğe)</string>
+    <string name="sort_desc_alphabetical">Alfabetik Sırala (A-Z)</string>
+    <string name="content_desc_sort">Sırala</string>
+    <string name="header_price_chart">FİYAT GRAFİĞİ</string>
+    <string name="label_profit">Kâr</string>
+    <string name="sort_label_manual">Özel Sıralama</string>
+    <string name="sort_desc_manual">Manuel Sırala (Yukarı/Aşağı)</string>
+    
+    <!-- Net Worth Summary Screen -->
+    <string name="title_net_worth_summary">Varlık Özeti</string>
+    <string name="error_not_enough_data">Yeterli veri yok. Grafik oluşturulabilmesi için varlıklarınızı güncelleyin veya bekleyin.</string>
+    <string name="label_current_net_worth">GÜNCEL NET DEĞER</string>
+    <string name="label_initial_net_worth">İlk Net Değer</string>
+    <string name="label_start_date">Başlangıç Tarihi</string>
+    <string name="label_net_worth_change">NET DEĞER DEĞİŞİMİ</string>
+    <string name="error_need_more_days">Grafiğin çizilmesi için birkaç günün verisi gerekmektedir.</string>
+    <!-- Bottom Navigation Bar -->
+    <string name="nav_home">Ana Sayfa</string>
+    <string name="nav_portfolio">Portföy</string>
+    <string name="nav_markets">Piyasalar</string>
+    <string name="nav_profile">Profil</string>
+
+    <!-- Markets Screen -->
+    <string name="markets_tab_economy">Ekonomi</string>
+    <string name="markets_tab_stocks">Hisse Senetleri</string>
+    <string name="markets_tab_crypto">Kripto</string>
+    <string name="markets_news_empty">Haber bulunamadı.</string>
+
+    <!-- Profile Screen -->
+    <string name="profile_title">Profil</string>
+    <string name="profile_guest_user">Misafir Kullanıcı</string>
+    <string name="profile_badge_local">Yerel Kayıt Aktif</string>
+    <string name="profile_premium_title">BULUT SENKRONİZASYONU VE YEDEKLEME</string>
+    <string name="profile_premium_desc">Portföyünüzü güvenle bulutta saklayın ve tüm cihazlarınız arasında senkronize edin.</string>
+    <string name="profile_premium_feat_backup">Bulut Yedekleme ve Geçmiş Veriler</string>
+    <string name="profile_premium_feat_sync">Çoklu Cihaz Senkronizasyonu</string>
+    <string name="profile_premium_feat_alerts">Anlık Fiyat Uyarıları</string>
+    <string name="profile_premium_btn_soon">Giriş Yap / Üye Ol (Çok Yakında)</string>
+    <string name="profile_settings_title">UYGULAMA SEÇENEKLERİ</string>
+    <string name="profile_settings_theme">Tema</string>
+    <string name="profile_settings_theme_dark">Koyu Tema</string>
+    <string name="profile_settings_lang">Dil</string>
+    <string name="profile_settings_lang_value">Sistem Dili</string>
+    <string name="profile_settings_reset">Tüm Verileri Sıfırla</string>
+    <string name="profile_settings_reset_confirm_title">Veriler Sıfırlansın Mı?</string>
+    <string name="profile_settings_reset_confirm_desc">Tüm varlıklarınızı, işlemlerinizi ve günlük net değer geçmişinizi kalıcı olarak silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.</string>
+    <string name="profile_settings_reset_toast">Tüm portföy verileri başarıyla sıfırlandı.</string>
+    <string name="profile_about_title">HAKKINDA VE DESTEK</string>
+    <string name="profile_about_version">Versiyon</string>
+    <string name="profile_about_feedback">Geri Bildirim Gönder</string>
+    <string name="profile_about_rate">Uygulamayı Değerlendir</string>
+    <string name="profile_settings_lang_dialog_title">Dil Seçin</string>
+    <!-- Precious Metal Section -->
+    <string name="metal_section_select_metal">MADEN TÜRÜ SEÇİNİZ</string>
+    <string name="metal_section_select_mode">HESAPLAMA YÖNTEMİ SEÇİNİZ</string>
+    <string name="metal_section_select_gold_type">ALTIN TİPİ SEÇİNİZ</string>
+    <string name="metal_section_select_gold_karat">ALTIN AYARI SEÇİNİZ</string>
+    
+    <string name="metal_cat_gold">Altın</string>
+    <string name="metal_cat_silver">Gümüş</string>
+    <string name="metal_cat_platinum">Platin</string>
+    <string name="metal_cat_palladium">Paladyum</string>
+    <string name="metal_cat_copper">Bakır</string>
+
+    <string name="metal_mode_piece_title">Adet Hesabı</string>
+    <string name="metal_mode_piece_sub">Çeyrek, Ata, Reşat...</string>
+    <string name="metal_mode_gram_title">Gram Hesabı</string>
+    <string name="metal_mode_gram_sub">Bilezik, Külçe, Has...</string>
+
+    <string name="gold_piece_ceyrek">Çeyrek Altın</string>
+    <string name="gold_piece_yarim">Yarım Altın</string>
+    <string name="gold_piece_tam">Tam / Ziynet Altın</string>
+    <string name="gold_piece_ata">Ata / Cumhuriyet Altını</string>
+    <string name="gold_piece_resat">Reşat Altın</string>
+    <string name="gold_piece_gram">Gram Altın (24K)</string>
+
+    <string name="gold_karat_24">24 Ayar (Has)</string>
+    <string name="gold_karat_22">22 Ayar (Bilezik)</string>
+    <string name="gold_karat_18">18 Ayar</string>
+    <string name="gold_karat_14">14 Ayar</string>
+
+    <string name="metal_field_count_label">Adet (Kaç tane?)</string>
+    <string name="metal_field_gram_label">Ağırlık (Gram)</string>
+    <string name="metal_field_gram_spec_label">%1$s Ağırlığı (Gram)</string>
+    <string name="metal_field_price_optional">Alış Fiyatı (Boş bırakılırsa canlı piyasa fiyatı alınır)</string>
+
+    <string name="metal_name_piece_format">%1$s (%2$s Adet)</string>
+    <string name="metal_name_gram_format">%1$s (%2$s gr)</string>
+
+    <!-- Fund Details & Withholding Tax -->
+    <string name="label_net_portfolio_value">NET PORTFÖY DEĞERİ</string>
+    <string name="label_gross_value">Brüt Tutar</string>
+    <string name="label_gross_return">Brüt Getiri</string>
+    <string name="label_withholding_tax_deduction">Stopaj Kesintisi (%%%1$s Stopaj)</string>
+    <string name="label_withholding_tax_badge">%%%1$s Stopaj</string>
+    <string name="label_net_value">Net Tutar</string>
+    <string name="label_net_return">Net Getiri</string>
+    <string name="label_tax_exempt">0 %1$s (Muaf)</string>
+    <string name="label_fund_yields">FON GETİRİLERİ</string>
+    <string name="yield_1m">1 Aylık</string>
+    <string name="yield_3m">3 Aylık</string>
+    <string name="yield_6m">6 Aylık</string>
+    <string name="yield_1y">1 Yıllık</string>
+    <string name="yield_ytd">Yılbaşı</string>
+    <string name="label_net_badge_item">Net (%%%1$s Stopaj)</string>
+</resources>

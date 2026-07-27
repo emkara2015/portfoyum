@@ -1,0 +1,28 @@
+name: Daily TEFAŞ Funds Sync
+
+on:
+  schedule:
+    # Runs every weekday (Monday-Friday) at 07:00 UTC (10:00 AM TRT)
+    - cron: '0 7 * * 1-5'
+  workflow_dispatch: # Allows manual trigger from GitHub UI anytime
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Run TEFAŞ Sync Script
+        run: |
+          python scratch/populate_all_2802_funds_to_supabase.py

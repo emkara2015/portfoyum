@@ -1,0 +1,4 @@
+1. tradingview grafikleri
+2. para birimi , veya nokta sorunsalı.
+3. hisse girerken hisse kodu olmayan hisse kesinlikle eklenmemeli. kullanıcı textbox a bile yazamamlı
+4. hisse küsratlı giriyorum düzelmiyor

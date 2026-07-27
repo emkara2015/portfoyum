@@ -1,0 +1,196 @@
+<resources>
+    <string name="app_name">AssetDash</string>
+    
+    <!-- Dashboard Screen -->
+    <string name="total_net_worth">TOTAL NET WORTH</string>
+    <string name="assets">ASSETS</string>
+    <string name="liabilities">LIABILITIES</string>
+    <string name="my_portfolio">MY ASSETS</string>
+    <string name="empty_portfolio">Your portfolio is empty.</string>
+    <string name="error_unexpected">An unexpected error occurred.</string>
+    <string name="btn_retry">Retry</string>
+    <string name="desc_add_asset">Add Asset</string>
+    <string name="desc_refresh">Refresh</string>
+    <string name="desc_back">Back</string>
+    <string name="empty_state_title">Your Portfolio is Empty</string>
+    <string name="empty_state_desc">Add your first financial asset or debt item so we can calculate your total net worth.</string>
+    <string name="btn_add_first_asset">Add Your First Asset</string>
+    <string name="error_state_title">An Error Occurred</string>
+    
+    <!-- Add Asset Screen -->
+    <string name="title_add_asset">Add New Asset</string>
+    <string name="title_select_asset_type">Select Asset Type</string>
+    <string name="category_label">CATEGORY: %1$s</string>
+    <string name="field_asset_name">Asset Name</string>
+    <string name="field_symbol_code">Symbol Code</string>
+    <string name="field_quantity">Quantity / Lot Amount</string>
+    <string name="field_unit_price">Unit Purchase Price</string>
+    <string name="field_total_value">Estimated Total Value</string>
+    <string name="field_purchase_date">Purchase Date</string>
+    <string name="field_debt_amount">Total Debt Amount</string>
+    <string name="field_value_balance">Value / Balance</string>
+    <string name="label_currency">Currency</string>
+    <string name="btn_save">Save</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_add_debt">Add Debt</string>
+    <string name="btn_add_asset">Add Asset</string>
+    <string name="error_invalid_symbol">Please enter a symbol code.</string>
+    <string name="error_invalid_name">Please enter an asset name.</string>
+    <string name="error_invalid_quantity">Please enter a valid quantity (greater than 0).</string>
+    <string name="error_invalid_price">Please enter a valid unit price or value.</string>
+    <string name="error_symbol_not_found">This stock/crypto code was not found in our database. Please enter a valid code (e.g. THYAO, BTC, AAPL).</string>
+    <string name="error_save_failed">An error occurred while adding the asset.</string>
+    <string name="error_enter_symbol_first">Please enter a symbol first.</string>
+    <string name="error_fetch_price_failed">Failed to fetch price</string>
+    
+    <!-- Asset Detail Screen -->
+    <string name="title_asset_detail">Asset Detail</string>
+    <string name="btn_delete_asset">Delete Asset</string>
+    <string name="header_tx_history">TRANSACTION HISTORY</string>
+    <string name="label_current_value">CURRENT VALUE</string>
+    <string name="box_total_quantity">Total Quantity</string>
+    <string name="box_cost_unit">Cost (Unit)</string>
+    <string name="box_total_invested">Total Invested</string>
+    <string name="box_current_price">Current Price</string>
+    <string name="row_quantity">Quantity: %1$s</string>
+    <string name="row_date">Date: %1$s</string>
+    <string name="dialog_delete_title">Delete Asset</string>
+    <string name="dialog_delete_text">Are you sure you want to permanently delete this asset and all its transaction history?</string>
+    <string name="dialog_delete_confirm">Delete</string>
+    <string name="dialog_edit_tx_title">Edit Transaction</string>
+    <string name="dialog_select">Select</string>
+    
+    <!-- Categories -->
+    <string name="cat_stock">STOCK</string>
+    <string name="cat_crypto">CRYPTO</string>
+    <string name="cat_metal">PRECIOUS METAL</string>
+    <string name="cat_fund">INVESTMENT FUND</string>
+    <string name="cat_eurobond">EUROBOND</string>
+    <string name="cat_cash">CASH</string>
+    <string name="cat_real_estate">REAL ESTATE</string>
+    <string name="cat_vehicle">VEHICLE</string>
+    <string name="cat_bes">BES</string>
+    <string name="cat_debt">DEBT</string>
+    
+    <!-- Category Descriptions -->
+    <string name="desc_cat_stock">Stock investments</string>
+    <string name="desc_cat_crypto">BTC, ETH etc.</string>
+    <string name="desc_cat_metal">Gold, silver etc.</string>
+    <string name="desc_cat_fund">Mutual funds</string>
+    <string name="desc_cat_eurobond">Foreign currency bonds</string>
+    <string name="desc_cat_cash">Bank accounts, cash</string>
+    <string name="desc_cat_real_estate">House, land etc.</string>
+    <string name="desc_cat_vehicle">Car, bike etc.</string>
+    <string name="desc_cat_bes">Private pension</string>
+    <string name="desc_cat_debt">Credits, loans etc.</string>
+    <!-- Sorting & Charts -->
+    <string name="sort_label_value_desc">Value (High)</string>
+    <string name="sort_label_value_asc">Value (Low)</string>
+    <string name="sort_label_alphabetical">Alphabetical</string>
+    <string name="sort_desc_value_desc">Sort by Value (High to Low)</string>
+    <string name="sort_desc_value_asc">Sort by Value (Low to High)</string>
+    <string name="sort_desc_alphabetical">Sort Alphabetically (A-Z)</string>
+    <string name="content_desc_sort">Sort</string>
+    <string name="header_price_chart">PRICE CHART</string>
+    <string name="label_profit">Profit</string>
+    <string name="sort_label_manual">Custom Order</string>
+    <string name="sort_desc_manual">Sort Manually (Up/Down)</string>
+    
+    <!-- Net Worth Summary Screen -->
+    <string name="title_net_worth_summary">Net Worth Summary</string>
+    <string name="error_not_enough_data">Not enough data. Update your assets or wait for a few days to generate the chart.</string>
+    <string name="label_current_net_worth">CURRENT NET WORTH</string>
+    <string name="label_initial_net_worth">Initial Net Worth</string>
+    <string name="label_start_date">Start Date</string>
+    <string name="label_net_worth_change">NET WORTH CHANGE</string>
+    <string name="error_need_more_days">A few days of data is required to draw the chart.</string>
+    <!-- Bottom Navigation Bar -->
+    <string name="nav_home">Home</string>
+    <string name="nav_portfolio">Portfolio</string>
+    <string name="nav_markets">Markets</string>
+    <string name="nav_profile">Profile</string>
+
+    <!-- Markets Screen -->
+    <string name="markets_tab_economy">Economy</string>
+    <string name="markets_tab_stocks">Stocks</string>
+    <string name="markets_tab_crypto">Crypto</string>
+    <string name="markets_news_empty">No news articles found.</string>
+
+    <!-- Profile Screen -->
+    <string name="profile_title">Profile</string>
+    <string name="profile_guest_user">Guest User</string>
+    <string name="profile_badge_local">Local Portfolio Active</string>
+    <string name="profile_premium_title">CLOUD SYNC &amp; BACKUP</string>
+    <string name="profile_premium_desc">Back up your portfolio safely in the cloud and keep it synchronized across all devices.</string>
+    <string name="profile_premium_feat_backup">Cloud Backup &amp; History</string>
+    <string name="profile_premium_feat_sync">Multi-device Synchronization</string>
+    <string name="profile_premium_feat_alerts">Real-time Price Alerts</string>
+    <string name="profile_premium_btn_soon">Sign In / Sync (Coming Soon)</string>
+    <string name="profile_settings_title">APP OPTIONS</string>
+    <string name="profile_settings_theme">Theme</string>
+    <string name="profile_settings_theme_dark">Dark Theme</string>
+    <string name="profile_settings_lang">Language</string>
+    <string name="profile_settings_lang_value">System Language</string>
+    <string name="profile_settings_reset">Reset All Data</string>
+    <string name="profile_settings_reset_confirm_title">Reset Local Data?</string>
+    <string name="profile_settings_reset_confirm_desc">Are you sure you want to permanently delete all assets, transactions, and daily net worth history? This action cannot be undone.</string>
+    <string name="profile_settings_reset_toast">All portfolio data has been successfully reset.</string>
+    <string name="profile_about_title">ABOUT &amp; SUPPORT</string>
+    <string name="profile_about_version">Version</string>
+    <string name="profile_about_feedback">Send Feedback</string>
+    <string name="profile_about_rate">Rate Application</string>
+    <string name="profile_settings_lang_dialog_title">Select Language</string>
+    <!-- Precious Metal Section -->
+    <string name="metal_section_select_metal">SELECT METAL TYPE</string>
+    <string name="metal_section_select_mode">SELECT CALCULATION METHOD</string>
+    <string name="metal_section_select_gold_type">SELECT GOLD TYPE</string>
+    <string name="metal_section_select_gold_karat">SELECT GOLD KARAT</string>
+    
+    <string name="metal_cat_gold">Gold</string>
+    <string name="metal_cat_silver">Silver</string>
+    <string name="metal_cat_platinum">Platinum</string>
+    <string name="metal_cat_palladium">Palladium</string>
+    <string name="metal_cat_copper">Copper</string>
+
+    <string name="metal_mode_piece_title">Piece Count</string>
+    <string name="metal_mode_piece_sub">Quarter, Ata, Resat...</string>
+    <string name="metal_mode_gram_title">Weight (Grams)</string>
+    <string name="metal_mode_gram_sub">Jewelry, Bars, Karats...</string>
+
+    <string name="gold_piece_ceyrek">Quarter Gold</string>
+    <string name="gold_piece_yarim">Half Gold</string>
+    <string name="gold_piece_tam">Full / Ziynet Gold</string>
+    <string name="gold_piece_ata">Ata / Republic Gold</string>
+    <string name="gold_piece_resat">Resat Gold</string>
+    <string name="gold_piece_gram">Gram Gold (24K)</string>
+
+    <string name="gold_karat_24">24K (Pure)</string>
+    <string name="gold_karat_22">22K (Jewelry)</string>
+    <string name="gold_karat_18">18K</string>
+    <string name="gold_karat_14">14K</string>
+
+    <string name="metal_field_count_label">Quantity (Piece Count)</string>
+    <string name="metal_field_gram_label">Weight (Grams)</string>
+    <string name="metal_field_gram_spec_label">%1$s Weight (Grams)</string>
+    <string name="metal_field_price_optional">Purchase Price (Optional - leaves blank for live market price)</string>
+
+    <string name="metal_name_piece_format">%1$s (%2$s Pcs)</string>
+    <string name="metal_name_gram_format">%1$s (%2$s g)</string>
+
+    <!-- Fund Details & Withholding Tax -->
+    <string name="label_net_portfolio_value">NET PORTFOLIO VALUE</string>
+    <string name="label_gross_value">Gross Value</string>
+    <string name="label_gross_return">Gross Return</string>
+    <string name="label_withholding_tax_deduction">Withholding Tax (%1$s Tax)</string>
+    <string name="label_withholding_tax_badge">%1$s Tax</string>
+    <string name="label_net_value">Net Value</string>
+    <string name="label_net_return">Net Return</string>
+    <string name="label_tax_exempt">0 %1$s (Exempt)</string>
+    <string name="label_fund_yields">FUND RETURNS</string>
+    <string name="yield_1m">1 Month</string>
+    <string name="yield_3m">3 Months</string>
+    <string name="yield_6m">6 Months</string>
+    <string name="yield_1y">1 Year</string>
+    <string name="yield_ytd">YTD</string>
+    <string name="label_net_badge_item">Net (%1$s Tax)</string>
+</resources>

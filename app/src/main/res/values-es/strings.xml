@@ -1,0 +1,196 @@
+<resources>
+    <string name="app_name">Mi Patrimonio</string>
+    
+    <!-- Dashboard Screen -->
+    <string name="total_net_worth">PATRIMONIO NETO TOTAL</string>
+    <string name="assets">ACTIVOS</string>
+    <string name="liabilities">PASIVOS</string>
+    <string name="my_portfolio">MIS ACTIVOS</string>
+    <string name="empty_portfolio">Tu cartera está vacía.</string>
+    <string name="error_unexpected">Ocurrió un error inesperado.</string>
+    <string name="btn_retry">Reintentar</string>
+    <string name="desc_add_asset">Añadir Activo</string>
+    <string name="desc_refresh">Actualizar</string>
+    <string name="desc_back">Volver</string>
+    <string name="empty_state_title">Tu Cartera está Vacía</string>
+    <string name="empty_state_desc">Agregue su primer activo financiero o elemento de deuda para que podamos calcular su patrimonio neto total.</string>
+    <string name="btn_add_first_asset">Añadir tu Primer Activo</string>
+    <string name="error_state_title">Ocurrió un Error</string>
+    
+    <!-- Add Asset Screen -->
+    <string name="title_add_asset">Añadir Nuevo Activo</string>
+    <string name="title_select_asset_type">Seleccionar Tipo de Activo</string>
+    <string name="category_label">CATEGORÍA: %1$s</string>
+    <string name="field_asset_name">Nombre del Activo</string>
+    <string name="field_symbol_code">Código de Símbolo</string>
+    <string name="field_quantity">Cantidad / Lotes</string>
+    <string name="field_unit_price">Precio de Compra Unitario</string>
+    <string name="field_total_value">Valor Total Estimado</string>
+    <string name="field_purchase_date">Fecha de Compra</string>
+    <string name="field_debt_amount">Monto Total de la Deuda</string>
+    <string name="field_value_balance">Valor / Saldo</string>
+    <string name="label_currency">Moneda</string>
+    <string name="btn_save">Guardar</string>
+    <string name="btn_cancel">Cancelar</string>
+    <string name="btn_add_debt">Añadir Deuda</string>
+    <string name="btn_add_asset">Añadir Activo</string>
+    <string name="error_invalid_symbol">Ingrese un código de símbolo.</string>
+    <string name="error_invalid_name">Ingrese un nombre de activo.</string>
+    <string name="error_invalid_quantity">Ingrese una cantidad válida (mayor que 0).</string>
+    <string name="error_invalid_price">Ingrese un precio unitario o valor válido.</string>
+    <string name="error_symbol_not_found">Este código de acción/cripto no fue encontrado en nuestra base de datos. Ingrese un código válido (ej. THYAO, BTC, AAPL).</string>
+    <string name="error_save_failed">Ocurrió un error al añadir el activo.</string>
+    <string name="error_enter_symbol_first">Ingrese un símbolo primero.</string>
+    <string name="error_fetch_price_failed">Error al obtener el precio</string>
+    
+    <!-- Asset Detail Screen -->
+    <string name="title_asset_detail">Detalle del Activo</string>
+    <string name="btn_delete_asset">Eliminar Activo</string>
+    <string name="header_tx_history">HISTORIAL DE TRANSACCIONES</string>
+    <string name="label_current_value">VALOR ACTUAL</string>
+    <string name="box_total_quantity">Cantidad Total</string>
+    <string name="box_cost_unit">Costo (Unidad)</string>
+    <string name="box_total_invested">Total Invertido</string>
+    <string name="box_current_price">Precio Actual</string>
+    <string name="row_quantity">Cantidad: %1$s</string>
+    <string name="row_date">Fecha: %1$s</string>
+    <string name="dialog_delete_title">Eliminar Activo</string>
+    <string name="dialog_delete_text">¿Está seguro de que desea eliminar permanentemente este activo y todo su historial de transacciones?</string>
+    <string name="dialog_delete_confirm">Eliminar</string>
+    <string name="dialog_edit_tx_title">Editar Transacción</string>
+    <string name="dialog_select">Seleccionar</string>
+    
+    <!-- Categories -->
+    <string name="cat_stock">ACCIONES</string>
+    <string name="cat_crypto">CRIPTOMONEDA</string>
+    <string name="cat_metal">METAL PRECIOSO</string>
+    <string name="cat_fund">FONDO DE INVERSIÓN</string>
+    <string name="cat_eurobond">EUROBONO</string>
+    <string name="cat_cash">EFECTIVO</string>
+    <string name="cat_real_estate">BIENES RAÍCES</string>
+    <string name="cat_vehicle">VEHÍCULO</string>
+    <string name="cat_bes">BES</string>
+    <string name="cat_debt">DEUDA</string>
+    
+    <!-- Category Descriptions -->
+    <string name="desc_cat_stock">Inversiones en bolsa</string>
+    <string name="desc_cat_crypto">BTC, ETH, etc.</string>
+    <string name="desc_cat_metal">Oro, plata, etc.</string>
+    <string name="desc_cat_fund">Fondos mutuos</string>
+    <string name="desc_cat_eurobond">Bonos en moneda extranjera</string>
+    <string name="desc_cat_cash">Cuentas bancarias, efectivo</string>
+    <string name="desc_cat_real_estate">Casa, terreno, etc.</string>
+    <string name="desc_cat_vehicle">Coche, moto, etc.</string>
+    <string name="desc_cat_bes">Jubilación privada</string>
+    <string name="desc_cat_debt">Créditos, cuotas, etc.</string>
+    <!-- Sorting & Charts -->
+    <string name="sort_label_value_desc">Valor (Alto)</string>
+    <string name="sort_label_value_asc">Valor (Bajo)</string>
+    <string name="sort_label_alphabetical">Alfabético</string>
+    <string name="sort_desc_value_desc">Ordenar por Valor (Mayor a Menor)</string>
+    <string name="sort_desc_value_asc">Ordenar por Valor (Menor a Mayor)</string>
+    <string name="sort_desc_alphabetical">Ordenar Alfabéticamente (A-Z)</string>
+    <string name="content_desc_sort">Ordenar</string>
+    <string name="header_price_chart">GRÁFICO DE PRECIO</string>
+    <string name="label_profit">Ganancia</string>
+    <string name="sort_label_manual">Orden Personalizado</string>
+    <string name="sort_desc_manual">Ordenar Manualmente (Arriba/Abajo)</string>
+    
+    <!-- Net Worth Summary Screen -->
+    <string name="title_net_worth_summary">Resumen de Patrimonio</string>
+    <string name="error_not_enough_data">Datos insuficientes. Actualice sus activos o espere unos días para generar el gráfico.</string>
+    <string name="label_current_net_worth">PATRIMONIO NETO ACTUAL</string>
+    <string name="label_initial_net_worth">Patrimonio Inicial</string>
+    <string name="label_start_date">Fecha de Inicio</string>
+    <string name="label_net_worth_change">CAMBIO DE PATRIMONIO NETO</string>
+    <string name="error_need_more_days">Se requieren unos días de datos para dibujar el gráfico.</string>
+    <!-- Bottom Navigation Bar -->
+    <string name="nav_home">Inicio</string>
+    <string name="nav_portfolio">Portafolio</string>
+    <string name="nav_markets">Mercados</string>
+    <string name="nav_profile">Perfil</string>
+
+    <!-- Markets Screen -->
+    <string name="markets_tab_economy">Economía</string>
+    <string name="markets_tab_stocks">Acciones</string>
+    <string name="markets_tab_crypto">Cripto</string>
+    <string name="markets_news_empty">No se encontraron artículos de noticias.</string>
+
+    <!-- Profile Screen -->
+    <string name="profile_title">Perfil</string>
+    <string name="profile_guest_user">Usuario Invitado</string>
+    <string name="profile_badge_local">Portafolio Local Activo</string>
+    <string name="profile_premium_title">COPIA DE SEGURIDAD Y SINCRONIZACIÓN</string>
+    <string name="profile_premium_desc">Guarde su portafolio de forma segura en la nube y manténgalo sincronizado en todos sus dispositivos.</string>
+    <string name="profile_premium_feat_backup">Copia de Seguridad y Datos Históricos</string>
+    <string name="profile_premium_feat_sync">Sincronización Multi-dispositivo</string>
+    <string name="profile_premium_feat_alerts">Alertas de Precios en Tiempo Real</string>
+    <string name="profile_premium_btn_soon">Iniciar Sesión / Sincronizar (Pronto)</string>
+    <string name="profile_settings_title">OPCIONES DE APLICACIÓN</string>
+    <string name="profile_settings_theme">Tema</string>
+    <string name="profile_settings_theme_dark">Tema Oscuro</string>
+    <string name="profile_settings_lang">Idioma</string>
+    <string name="profile_settings_lang_value">Idioma del Sistema</string>
+    <string name="profile_settings_reset">Restablecer Todos los Datos</string>
+    <string name="profile_settings_reset_confirm_title">¿Restablecer Datos?</string>
+    <string name="profile_settings_reset_confirm_desc">¿Está seguro de que desea eliminar permanentemente todos sus activos, transacciones e historial de patrimonio neto? Esta acción no se puede deshacer.</string>
+    <string name="profile_settings_reset_toast">Todos los datos del portafolio se han restablecido con éxito.</string>
+    <string name="profile_about_title">ACERCA DE Y SOPORTE</string>
+    <string name="profile_about_version">Versión</string>
+    <string name="profile_about_feedback">Enviar Comentarios</string>
+    <string name="profile_about_rate">Calificar Aplicación</string>
+    <string name="profile_settings_lang_dialog_title">Seleccionar Idioma</string>
+    <!-- Precious Metal Section -->
+    <string name="metal_section_select_metal">SELECCIONAR TIPO DE METAL</string>
+    <string name="metal_section_select_mode">SELECCIONAR MÉTODO DE CÁLCULO</string>
+    <string name="metal_section_select_gold_type">SELECCIONAR TIPO DE ORO</string>
+    <string name="metal_section_select_gold_karat">SELECCIONAR KILATE DE ORO</string>
+    
+    <string name="metal_cat_gold">Oro</string>
+    <string name="metal_cat_silver">Plata</string>
+    <string name="metal_cat_platinum">Platino</string>
+    <string name="metal_cat_palladium">Paladio</string>
+    <string name="metal_cat_copper">Cobre</string>
+
+    <string name="metal_mode_piece_title">Conteo por Piezas</string>
+    <string name="metal_mode_piece_sub">Cuarto, Ata, Monedas...</string>
+    <string name="metal_mode_gram_title">Peso en Gramos</string>
+    <string name="metal_mode_gram_sub">Pulseras, Lingotes, K...</string>
+
+    <string name="gold_piece_ceyrek">Moneda Cuarto de Oro</string>
+    <string name="gold_piece_yarim">Media Moneda de Oro</string>
+    <string name="gold_piece_tam">Moneda Entera de Oro</string>
+    <string name="gold_piece_ata">Moneda Ata / República</string>
+    <string name="gold_piece_resat">Moneda Resat de Oro</string>
+    <string name="gold_piece_gram">Gramo de Oro (24K)</string>
+
+    <string name="gold_karat_24">24K (Puro)</string>
+    <string name="gold_karat_22">22K (Pulseras)</string>
+    <string name="gold_karat_18">18K</string>
+    <string name="gold_karat_14">14K</string>
+
+    <string name="metal_field_count_label">Cantidad (Piezas)</string>
+    <string name="metal_field_gram_label">Peso (Gramos)</string>
+    <string name="metal_field_gram_spec_label">Peso de %1$s (Gramos)</string>
+    <string name="metal_field_price_optional">Precio de Compra (Opcional - precio de mercado en vivo)</string>
+
+    <string name="metal_name_piece_format">%1$s (%2$s Piezas)</string>
+    <string name="metal_name_gram_format">%1$s (%2$s g)</string>
+
+    <!-- Fund Details & Withholding Tax -->
+    <string name="label_net_portfolio_value">VALOR NETO DE PORTAFOLIO</string>
+    <string name="label_gross_value">Valor Bruto</string>
+    <string name="label_gross_return">Rendimiento Bruto</string>
+    <string name="label_withholding_tax_deduction">Retención Fiscal (%1$s Retención)</string>
+    <string name="label_withholding_tax_badge">%1$s Retención</string>
+    <string name="label_net_value">Valor Neto</string>
+    <string name="label_net_return">Rendimiento Neto</string>
+    <string name="label_tax_exempt">0 %1$s (Exento)</string>
+    <string name="label_fund_yields">RENDIMIENTOS DEL FONDO</string>
+    <string name="yield_1m">1 Mes</string>
+    <string name="yield_3m">3 Meses</string>
+    <string name="yield_6m">6 Meses</string>
+    <string name="yield_1y">1 Año</string>
+    <string name="yield_ytd">Año a la Fecha</string>
+    <string name="label_net_badge_item">Neto (%1$s Retención)</string>
+</resources>
