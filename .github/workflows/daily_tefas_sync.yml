@@ -2,8 +2,9 @@ name: Daily TEFAŞ Funds Sync
 
 on:
   schedule:
-    # Runs every weekday (Monday-Friday) at 07:15 UTC (10:15 AM TRT)
-    - cron: '15 7 * * 1-5'
+    # Runs every 15 minutes from 07:00 AM TRT to 11:00 AM TRT (04:00 - 08:00 UTC) on weekdays
+    - cron: '*/15 4-7 * * 1-5'
+    - cron: '0 8 * * 1-5'
   workflow_dispatch: # Allows manual trigger from GitHub UI anytime
 
 jobs:
