@@ -19,13 +19,26 @@ headers = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
 }
 
-print("1. Fetching all fund codes from Supabase...")
-r = requests.get(f"{supabase_url}?select=symbol&limit=3000", headers=patch_headers)
-if r.status_code != 200:
-    print("Failed to fetch symbols:", r.status_code)
-    exit(1)
+print("1. Fetching all fund codes from Supabase (with pagination)...")
+symbols = []
+offset = 0
+limit = 1000
 
-symbols = [item['symbol'] for item in r.json() if item.get('symbol')]
+while True:
+    headers_range = {**patch_headers, "Range": f"{offset}-{offset+limit-1}"}
+    r = requests.get(f"{supabase_url}?select=symbol", headers=headers_range)
+    if r.status_code not in (200, 206):
+        print(f"Failed to fetch symbols at offset {offset}:", r.status_code)
+        break
+    data = r.json()
+    if not data:
+        break
+    fetched = [item['symbol'] for item in data if item.get('symbol')]
+    symbols.extend(fetched)
+    if len(data) < limit:
+        break
+    offset += limit
+
 print(f"Total symbols to enrich: {len(symbols)}")
 
 def process_fund(code):
