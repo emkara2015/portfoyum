@@ -164,18 +164,34 @@ class AssetDetailViewModel @Inject constructor(
         }
     }
 
-    fun updateTransaction(transaction: Transaction, newQuantity: Double, newPrice: Double, newDate: Long) {
+    fun updateTransaction(transaction: Transaction, newQuantity: Double, newPrice: Double, newDate: Long, newNote: String = transaction.note) {
         viewModelScope.launch {
             try {
                 val updatedTx = transaction.copy(
                     quantity = newQuantity,
                     price = newPrice,
-                    date = newDate
+                    date = newDate,
+                    note = newNote
                 )
                 assetRepository.insertTransaction(updatedTx)
                 loadAssetDetails(currentAssetId)
             } catch (e: Exception) {
                 _state.update { it.copy(errorMessage = "İşlem güncellenirken hata: ${e.localizedMessage}") }
+            }
+        }
+    }
+
+    fun updateAssetNote(newNote: String) {
+        val currentAsset = _state.value.asset ?: return
+        val updatedAsset = currentAsset.copy(
+            name = if (newNote.isNotBlank()) newNote.trim() else currentAsset.symbol ?: currentAsset.name
+        )
+        viewModelScope.launch {
+            try {
+                assetRepository.updateAsset(updatedAsset)
+                loadAssetDetails(currentAssetId)
+            } catch (e: Exception) {
+                _state.update { it.copy(errorMessage = "Not güncellenirken hata: ${e.localizedMessage}") }
             }
         }
     }

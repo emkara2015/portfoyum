@@ -1,5 +1,6 @@
 package com.antigravity.networthtracker.data.local.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
@@ -23,5 +24,7 @@ data class TransactionEntity(
     val assetId: Long,
     val quantity: Double,
     val price: Double,
-    val date: Long
+    val date: Long,
+    @ColumnInfo(name = "note", defaultValue = "")
+    val note: String = ""
 )

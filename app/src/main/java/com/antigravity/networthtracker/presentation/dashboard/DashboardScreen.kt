@@ -101,6 +101,7 @@ import com.antigravity.networthtracker.presentation.components.CategoryHeader
 import com.antigravity.networthtracker.presentation.components.ShimmerLoading
 import com.antigravity.networthtracker.presentation.theme.TextGraySecondary
 import com.antigravity.networthtracker.presentation.theme.AccordionExpandedBg
+import com.antigravity.networthtracker.presentation.theme.AccordionItemDivider
 import com.antigravity.networthtracker.presentation.components.getLocalizedNameRes
 
 enum class SortOption {
@@ -122,7 +123,6 @@ fun DashboardScreen(
     val state by viewModel.state.collectAsState()
     val dailyHistory by viewModel.dailyNetWorthHistory.collectAsState(initial = emptyList())
     val context = LocalContext.current
-    val coroutineScope = rememberCoroutineScope()
 
     // Automatically refresh data when screen is opened or app returns to foreground
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -446,7 +446,7 @@ fun DashboardScreen(
                                     DropdownMenu(
                                         expanded = showSortMenu,
                                         onDismissRequest = { showSortMenu = false },
-                                        modifier = Modifier.background(MaterialTheme.colorScheme.surface)
+                                        modifier = Modifier.background(AccordionExpandedBg)
                                     ) {
                                         DropdownMenuItem(
                                             text = { Text(stringResource(id = R.string.sort_desc_value_desc), color = Color.White, fontSize = 13.sp) },
@@ -523,11 +523,14 @@ fun DashboardScreen(
                                                         AssetItemRow(
                                                             calculatedAsset = calculatedAsset,
                                                             onClick = { onAssetClick(calculatedAsset.asset) },
-                                                            isValuesHidden = isValuesHidden
+                                                            isValuesHidden = isValuesHidden,
+                                                            usdRate = usdRate,
+                                                            eurRate = eurRate,
+                                                            isLightBg = true
                                                         )
                                                         if (index < assetsInGroup.lastIndex) {
                                                             HorizontalDivider(
-                                                                color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                                                                color = AccordionItemDivider,
                                                                 thickness = 0.5.dp,
                                                                 modifier = Modifier.padding(horizontal = 16.dp)
                                                             )

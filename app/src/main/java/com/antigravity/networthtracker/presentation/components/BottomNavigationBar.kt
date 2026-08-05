@@ -132,6 +132,7 @@ fun BottomNavigationBar(
 }
 
 @Composable
+@Suppress("UNUSED_PARAMETER")
 private fun RowScope.BottomNavItem(
     route: String,
     icon: androidx.compose.ui.graphics.vector.ImageVector? = null,

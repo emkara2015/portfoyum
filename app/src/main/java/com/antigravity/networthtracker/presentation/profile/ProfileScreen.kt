@@ -72,7 +72,6 @@ fun ProfileScreen(
     viewModel: ProfileViewModel,
     modifier: Modifier = Modifier
 ) {
-    val state by viewModel.state.collectAsState()
     val context = LocalContext.current
     var showResetDialog by remember { mutableStateOf(false) }
 
@@ -388,11 +387,12 @@ fun SettingsSection(
                                     prefs.edit().putString("language_code", code).apply()
                                     
                                     // Update configuration
-                                    val locale = java.util.Locale(code)
+                                    val locale = java.util.Locale.forLanguageTag(code)
                                     java.util.Locale.setDefault(locale)
                                     val resources = context.resources
                                     val config = resources.configuration
                                     config.setLocale(locale)
+                                    @Suppress("DEPRECATION")
                                     resources.updateConfiguration(config, resources.displayMetrics)
                                     
                                     // Recreate activity
@@ -530,7 +530,7 @@ fun AboutSection() {
             SettingsRow(
                 icon = Icons.Default.Info,
                 title = stringResource(id = R.string.profile_about_version),
-                value = "v1.0.0",
+                value = "v1.5.0",
                 onClick = {}
             )
 

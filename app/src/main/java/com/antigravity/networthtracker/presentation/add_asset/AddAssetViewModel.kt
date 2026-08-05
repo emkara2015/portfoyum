@@ -49,6 +49,10 @@ class AddAssetViewModel @Inject constructor(
         _state.update { it.copy(name = name.uppercase(java.util.Locale.getDefault()), errorMessageResId = null, errorMessageText = null) }
     }
 
+    fun onNoteChange(note: String) {
+        _state.update { it.copy(note = note, errorMessageResId = null, errorMessageText = null) }
+    }
+
     fun onFundCategoryChange(category: com.antigravity.networthtracker.presentation.add_asset.FundCategory) {
         _state.update {
             it.copy(
@@ -223,7 +227,7 @@ class AddAssetViewModel @Inject constructor(
                     initialPrice = unitPrice
                 )
 
-                addAssetUseCase(asset, quantity, unitPrice, purchaseDate = currentState.purchaseDate)
+                addAssetUseCase(asset, quantity, unitPrice, purchaseDate = currentState.purchaseDate, note = currentState.note.trim())
                     .onSuccess {
                         _state.update { it.copy(isLoading = false, isSuccess = true) }
                     }
@@ -250,7 +254,11 @@ class AddAssetViewModel @Inject constructor(
         }
 
         val name = if (isAutoUpdate) {
-            if (currentState.name.isNotBlank()) currentState.name.trim().uppercase(java.util.Locale.getDefault()) else symbol!!.uppercase()
+            if (currentState.name.isNotBlank()) {
+                currentState.name.trim()
+            } else {
+                symbol!!.uppercase()
+            }
         } else currentState.name.trim().uppercase(java.util.Locale.getDefault())
         if (name.isBlank()) {
             _state.update { it.copy(errorMessageResId = R.string.error_invalid_name, errorMessageText = null) }
@@ -282,10 +290,12 @@ class AddAssetViewModel @Inject constructor(
                 initialPrice = price
             )
 
+            val txNote = currentState.note.trim()
+
             if (isAutoUpdate) {
                 livePriceRepository.getLivePrice(symbol!!, type)
                     .onSuccess {
-                        addAssetUseCase(asset, quantity, price, purchaseDate = currentState.purchaseDate)
+                        addAssetUseCase(asset, quantity, price, purchaseDate = currentState.purchaseDate, note = txNote)
                             .onSuccess {
                                 _state.update { it.copy(isLoading = false, isSuccess = true) }
                             }
@@ -301,7 +311,7 @@ class AddAssetViewModel @Inject constructor(
                     }
                     .onFailure { _ ->
                         // Fallback to saving asset with user-provided price if live fetch is unavailable
-                        addAssetUseCase(asset, quantity, price, purchaseDate = currentState.purchaseDate)
+                        addAssetUseCase(asset, quantity, price, purchaseDate = currentState.purchaseDate, note = txNote)
                             .onSuccess {
                                 _state.update { it.copy(isLoading = false, isSuccess = true) }
                             }
@@ -316,7 +326,7 @@ class AddAssetViewModel @Inject constructor(
                             }
                     }
             } else {
-                addAssetUseCase(asset, quantity, price, purchaseDate = currentState.purchaseDate)
+                addAssetUseCase(asset, quantity, price, purchaseDate = currentState.purchaseDate, note = txNote)
                     .onSuccess {
                         _state.update { it.copy(isLoading = false, isSuccess = true) }
                     }

@@ -36,6 +36,12 @@ import androidx.compose.ui.unit.sp
 import com.antigravity.networthtracker.R
 import com.antigravity.networthtracker.domain.model.AssetType
 import com.antigravity.networthtracker.domain.model.CalculatedAsset
+import com.antigravity.networthtracker.presentation.theme.AccordionClosedTextPrimary
+import com.antigravity.networthtracker.presentation.theme.AccordionClosedTextSecondary
+import com.antigravity.networthtracker.presentation.theme.AccordionHeaderClosedBg
+import com.antigravity.networthtracker.presentation.theme.AccordionHeaderOpenBg
+import com.antigravity.networthtracker.presentation.theme.AccordionOpenTextPrimary
+import com.antigravity.networthtracker.presentation.theme.AccordionOpenTextSecondary
 import com.antigravity.networthtracker.presentation.theme.TextGraySecondary
 import java.util.Locale
 
@@ -138,9 +144,18 @@ fun CategoryHeader(
         }
     }
 
+    val headerBg = com.antigravity.networthtracker.presentation.theme.TradingViewCardSurface
+    val titleTextColor = Color.White
+    val subTextColor = TextGraySecondary
+    val iconTint = TextGraySecondary
+    val progressTrackBg = Color.White.copy(alpha = 0.08f)
+    val progressFillColor = color
+    val debtTextColor = Color(0xFFF23645)
+
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .background(headerBg)
             .clickable { onToggle() }
             .padding(vertical = 12.dp, horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -164,7 +179,7 @@ fun CategoryHeader(
                     text = stringResource(id = type.getLocalizedNameRes()),
                     fontSize = 12.5.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White,
+                    color = titleTextColor,
                     maxLines = 1,
                     softWrap = false,
                     overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
@@ -197,14 +212,14 @@ fun CategoryHeader(
                         .weight(1f)
                         .height(6.dp)
                         .clip(RoundedCornerShape(3.dp))
-                        .background(Color.White.copy(alpha = 0.08f))
+                        .background(progressTrackBg)
                 ) {
                     Box(
                         modifier = Modifier
                             .fillMaxHeight()
                             .fillMaxWidth(fraction = (kotlin.math.abs(percentage) / 100.0).coerceIn(0.0, 1.0).toFloat())
                             .clip(RoundedCornerShape(3.dp))
-                            .background(color)
+                            .background(progressFillColor)
                     )
                 }
 
@@ -220,7 +235,7 @@ fun CategoryHeader(
                     text = pctText,
                     fontSize = 11.sp,
                     fontWeight = FontWeight.Medium,
-                    color = TextGraySecondary
+                    color = subTextColor
                 )
             }
         }
@@ -236,13 +251,13 @@ fun CategoryHeader(
                 text = if (isValuesHidden) "***,**" else formatCurrency(totalTry, "TRY"),
                 fontSize = 14.sp,
                 fontWeight = FontWeight.ExtraBold,
-                color = if (type == AssetType.DEBT) Color(0xFFF23645) else Color.White
+                color = if (type == AssetType.DEBT) debtTextColor else titleTextColor
             )
             Text(
                 text = if (isValuesHidden) "***,**" else formatCurrency(totalUsd, "USD"),
                 fontSize = 11.sp,
                 fontWeight = FontWeight.Medium,
-                color = TextGraySecondary
+                color = subTextColor
             )
         }
 
@@ -254,7 +269,7 @@ fun CategoryHeader(
         Icon(
             imageVector = Icons.Default.KeyboardArrowDown,
             contentDescription = null,
-            tint = TextGraySecondary,
+            tint = iconTint,
             modifier = Modifier
                 .size(24.dp)
                 .rotate(rotationAngle)

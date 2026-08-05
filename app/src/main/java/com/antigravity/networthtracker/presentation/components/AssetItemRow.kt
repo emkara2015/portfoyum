@@ -42,14 +42,22 @@ import androidx.compose.foundation.clickable
 import androidx.compose.ui.platform.LocalContext
 import com.antigravity.networthtracker.domain.model.getLocalizedDisplayName
 
+import com.antigravity.networthtracker.presentation.theme.AccordionItemTextPrimary
+import com.antigravity.networthtracker.presentation.theme.AccordionItemTextSecondary
+
 @Composable
 fun AssetItemRow(
     calculatedAsset: CalculatedAsset,
     onClick: () -> Unit,
     isValuesHidden: Boolean = false,
+    usdRate: Double = 0.0,
+    eurRate: Double = 0.0,
+    isLightBg: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     val asset = calculatedAsset.asset
+    val primaryTextColor = if (isLightBg) AccordionItemTextPrimary else Color.White
+    val secondaryTextColor = if (isLightBg) AccordionItemTextSecondary else TextGraySecondary
     
     Row(
         modifier = modifier
@@ -73,9 +81,21 @@ fun AssetItemRow(
                 text = calculatedAsset.getLocalizedDisplayName(LocalContext.current),
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.White
+                color = primaryTextColor
             )
-            if (asset.isAutoUpdate) {
+            if (asset.type == AssetType.FUND) {
+                val hasNote = asset.name.isNotBlank() && asset.name != asset.symbol
+                if (hasNote) {
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = asset.name,
+                        fontSize = 10.sp,
+                        color = secondaryTextColor,
+                        maxLines = 1,
+                        overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+                    )
+                }
+            } else if (asset.isAutoUpdate) {
                 Spacer(modifier = Modifier.height(2.dp))
                 Row(
                     verticalAlignment = Alignment.CenterVertically
@@ -84,7 +104,7 @@ fun AssetItemRow(
                     Text(
                         text = unitPriceText,
                         fontSize = 10.sp,
-                        color = TextGraySecondary
+                        color = secondaryTextColor
                     )
                     
                     val dailyChange = calculatedAsset.dailyChangePercentage
@@ -101,7 +121,7 @@ fun AssetItemRow(
                         )
                     }
                 }
-            } else if (calculatedAsset.profitLoss != 0.0) {
+            } else if (calculatedAsset.profitLoss != 0.0 && !asset.isLiability) {
                 Spacer(modifier = Modifier.height(2.dp))
                 val absProfit = kotlin.math.abs(calculatedAsset.profitLoss)
                 val profitText = if (isValuesHidden) "***,**" else formatCurrency(absProfit, asset.currency)
@@ -126,19 +146,32 @@ fun AssetItemRow(
                 text = if (isValuesHidden) "***,**" else formatCurrency(displayValue, asset.currency),
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.White
+                color = primaryTextColor
             )
-            if (asset.type == AssetType.FUND && calculatedAsset.stopajAmount > 0) {
-                val taxVal = calculatedAsset.taxPercent ?: 0.0
-                val formattedTax = if (taxVal % 1.0 == 0.0) {
-                    String.format(Locale.US, "%.0f", taxVal)
-                } else {
-                    String.format(Locale.US, "%.1f", taxVal)
+            if (asset.currency.uppercase() !in listOf("TRY", "TL")) {
+                val rate = when (asset.currency.uppercase()) {
+                    "USD" -> usdRate
+                    "EUR" -> eurRate
+                    else -> 0.0
                 }
+                if (rate > 0.0) {
+                    val tryEquivalent = displayValue * rate
+                    Text(
+                        text = if (isValuesHidden) "***,**" else formatCurrency(tryEquivalent, "TRY"),
+                        fontSize = 10.sp,
+                        color = secondaryTextColor
+                    )
+                }
+            }
+            if (asset.type == AssetType.FUND) {
+                val grossProfit = calculatedAsset.profitLoss
+                val absGrossProfit = kotlin.math.abs(grossProfit)
+                val grossSign = if (grossProfit > 0) "+" else if (grossProfit < 0) "-" else ""
+                val grossText = if (isValuesHidden) "***,**" else formatCurrency(absGrossProfit, asset.currency)
                 Text(
-                    text = stringResource(id = R.string.label_net_badge_item, formattedTax),
-                    fontSize = 9.sp,
-                    color = TextGraySecondary
+                    text = "${stringResource(id = R.string.label_gross_return)}: $grossSign$grossText",
+                    fontSize = 9.5.sp,
+                    color = secondaryTextColor
                 )
             }
         }
@@ -175,9 +208,10 @@ fun AssetItemRow(
 }
 
 fun formatNumber(number: Double): String {
+    val locale = java.util.Locale.forLanguageTag("tr-TR")
     return if (number == number.toLong().toDouble()) {
-        String.format(Locale.US, "%d", number.toLong())
+        String.format(locale, "%d", number.toLong())
     } else {
-        String.format(Locale.US, "%,.4f", number)
+        String.format(locale, "%,.4f", number)
     }
 }

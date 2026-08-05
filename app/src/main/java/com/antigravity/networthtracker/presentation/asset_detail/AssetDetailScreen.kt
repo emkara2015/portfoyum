@@ -17,15 +17,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -98,7 +101,9 @@ fun AssetDetailScreen(
     val state by viewModel.state.collectAsState()
 
     var showDeleteAssetDialog by remember { mutableStateOf(false) }
+    var showEditNoteDialog by remember { mutableStateOf(false) }
     var transactionToEdit by remember { mutableStateOf<Transaction?>(null) }
+    var transactionToDelete by remember { mutableStateOf<Transaction?>(null) }
 
     LaunchedEffect(assetId) {
         viewModel.loadAssetDetails(assetId)
@@ -153,6 +158,13 @@ fun AssetDetailScreen(
                 },
                 actions = {
                     if (state.asset != null) {
+                        IconButton(onClick = { showEditNoteDialog = true }) {
+                            Icon(
+                                imageVector = Icons.Default.Edit,
+                                contentDescription = "Notu Düzenle",
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        }
                         IconButton(onClick = { showDeleteAssetDialog = true }) {
                             Icon(
                                 imageVector = Icons.Default.Delete,
@@ -207,7 +219,7 @@ fun AssetDetailScreen(
                         tefasFundDetails = state.tefasFundDetails,
                         onRangeSelected = { viewModel.selectChartRange(it) },
                         onTransactionClick = { transactionToEdit = it },
-                        onSwipeDelete = { viewModel.deleteTransaction(it) },
+                        onSwipeDelete = { transactionToDelete = it },
                         onSaveValue = { transaction, newValue ->
                             viewModel.updateTransaction(transaction, transaction.quantity, newValue, transaction.date)
                         }
@@ -241,13 +253,82 @@ fun AssetDetailScreen(
         )
     }
 
+    if (transactionToDelete != null) {
+        AlertDialog(
+            onDismissRequest = { transactionToDelete = null },
+            containerColor = MaterialTheme.colorScheme.surface,
+            title = { Text(stringResource(id = R.string.dialog_delete_tx_title), color = Color.White, fontWeight = FontWeight.Bold) },
+            text = { Text(stringResource(id = R.string.dialog_delete_tx_text), color = Color.White) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        viewModel.deleteTransaction(transactionToDelete!!)
+                        transactionToDelete = null
+                    }
+                ) {
+                    Text(stringResource(id = R.string.dialog_delete_confirm), color = MaterialTheme.colorScheme.error, fontWeight = FontWeight.Bold)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { transactionToDelete = null }) {
+                    Text(stringResource(id = R.string.btn_cancel), color = Color.White)
+                }
+            }
+        )
+    }
+
+    if (showEditNoteDialog && state.asset != null) {
+        val currentSymbol = state.asset!!.symbol ?: ""
+        val currentName = state.asset!!.name
+        val initialNote = if (currentName.isNotBlank() && currentName != currentSymbol) currentName else ""
+        var noteText by remember { mutableStateOf(initialNote) }
+
+        AlertDialog(
+            onDismissRequest = { showEditNoteDialog = false },
+            containerColor = MaterialTheme.colorScheme.surface,
+            title = { Text("Notu Düzenle", color = Color.White, fontWeight = FontWeight.Bold) },
+            text = {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                ) {
+                    OutlinedTextField(
+                        value = noteText,
+                        onValueChange = { noteText = it },
+                        label = { Text(stringResource(id = R.string.field_note_label)) },
+                        placeholder = { Text(stringResource(id = R.string.field_note_placeholder), color = TextGraySecondary.copy(alpha = 0.5f)) },
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = customTextFieldColors(),
+                        singleLine = true
+                    )
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        viewModel.updateAssetNote(noteText)
+                        showEditNoteDialog = false
+                    }
+                ) {
+                    Text(stringResource(id = R.string.btn_save), color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showEditNoteDialog = false }) {
+                    Text(stringResource(id = R.string.btn_cancel), color = Color.White)
+                }
+            }
+        )
+    }
+
     if (transactionToEdit != null) {
         EditTransactionDialog(
             transaction = transactionToEdit!!,
             isAutoUpdate = state.asset?.isAutoUpdate == true,
             onDismiss = { transactionToEdit = null },
-            onSave = { qty, price, date ->
-                viewModel.updateTransaction(transactionToEdit!!, qty, price, date)
+            onSave = { qty, price, date, note ->
+                viewModel.updateTransaction(transactionToEdit!!, qty, price, date, note)
                 transactionToEdit = null
             }
         )
@@ -394,17 +475,19 @@ fun AssetDetailContent(
                 )
             }
 
-            items(transactions, key = { it.id }) { transaction ->
+            itemsIndexed(transactions, key = { _, transaction -> transaction.id }) { index, transaction ->
                 val dismissState = rememberSwipeToDismissBoxState(
                     confirmValueChange = { dismissValue ->
                         if (dismissValue == SwipeToDismissBoxValue.EndToStart) {
                             onSwipeDelete(transaction)
-                            true
+                            false
                         } else {
                             false
                         }
                     }
                 )
+
+                val zebraBgColor = if (index % 2 == 1) Color(0xFF161B29) else MaterialTheme.colorScheme.background
 
                 SwipeToDismissBox(
                     state = dismissState,
@@ -429,6 +512,8 @@ fun AssetDetailContent(
                             transaction = transaction,
                             currency = asset.currency,
                             assetType = asset.type,
+                            currentPrice = calculatedAsset?.currentPrice ?: 0.0,
+                            backgroundColor = zebraBgColor,
                             onClick = { onTransactionClick(transaction) }
                         )
                     },
@@ -436,7 +521,7 @@ fun AssetDetailContent(
                 )
 
                 HorizontalDivider(
-                    color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
+                    color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f),
                     thickness = 0.5.dp,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
@@ -521,7 +606,7 @@ fun AssetDetailContent(
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 TradingViewChart(
-                    symbol = asset.symbol ?: "",
+                    symbol = asset.symbol,
                     chartData = chartData,
                     isChartLoading = isChartLoading,
                     modifier = Modifier.padding(bottom = 16.dp)
@@ -742,6 +827,8 @@ fun TransactionRow(
     transaction: Transaction,
     currency: String,
     assetType: com.antigravity.networthtracker.domain.model.AssetType? = null,
+    currentPrice: Double = 0.0,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -749,16 +836,24 @@ fun TransactionRow(
         SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date(transaction.date))
     }
 
+    val effectiveCurrentPrice = if (currentPrice > 0.0) currentPrice else transaction.price
+    val grossValue = transaction.quantity * effectiveCurrentPrice
+    val lotProfitPct = if (transaction.price > 0.0 && currentPrice > 0.0) {
+        ((currentPrice - transaction.price) / transaction.price) * 100.0
+    } else {
+        0.0
+    }
+
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background)
+            .background(backgroundColor)
             .clickable { onClick() }
-            .padding(horizontal = 16.dp, vertical = 16.dp),
+            .padding(horizontal = 16.dp, vertical = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Column {
+        Column(modifier = Modifier.weight(1f)) {
             Text(
                 text = stringResource(id = R.string.row_quantity, formatQuantity(transaction.quantity)),
                 fontSize = 15.sp,
@@ -771,6 +866,52 @@ fun TransactionRow(
                 fontSize = 12.sp,
                 color = TextGraySecondary
             )
+            if (transaction.note.isNotBlank()) {
+                Spacer(modifier = Modifier.height(3.dp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.Default.Description,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(13.dp)
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = transaction.note,
+                        fontSize = 12.sp,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Medium,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+            }
+            if (effectiveCurrentPrice > 0.0) {
+                Spacer(modifier = Modifier.height(2.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = formatIntegerValue(grossValue, currency),
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color.White
+                    )
+                    if (lotProfitPct != 0.0) {
+                        Spacer(modifier = Modifier.width(6.dp))
+                        val isPositive = lotProfitPct > 0
+                        val color = if (isPositive) TradingViewGreen else TradingViewRed
+                        val sign = if (isPositive) "+" else ""
+                        Text(
+                            text = String.format(Locale.US, "(%s%.2f%%)", sign, lotProfitPct),
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = color
+                        )
+                    }
+                }
+            }
         }
 
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -806,11 +947,12 @@ fun EditTransactionDialog(
     transaction: Transaction,
     isAutoUpdate: Boolean,
     onDismiss: () -> Unit,
-    onSave: (quantity: Double, price: Double, date: Long) -> Unit,
+    onSave: (quantity: Double, price: Double, date: Long, note: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var quantityText by remember { mutableStateOf(transaction.quantity.toString()) }
     var priceText by remember { mutableStateOf(transaction.price.toString()) }
+    var noteText by remember { mutableStateOf(transaction.note) }
     var dateTimestamp by remember { mutableStateOf(transaction.date) }
     
     var showDatePicker by remember { mutableStateOf(false) }
@@ -856,6 +998,16 @@ fun EditTransactionDialog(
                     .padding(vertical = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
+                OutlinedTextField(
+                    value = noteText,
+                    onValueChange = { noteText = it },
+                    label = { Text(stringResource(id = R.string.field_note_label)) },
+                    placeholder = { Text(stringResource(id = R.string.field_note_placeholder), color = TextGraySecondary.copy(alpha = 0.5f)) },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = customTextFieldColors(),
+                    singleLine = true
+                )
+
                 if (isAutoUpdate) {
                     OutlinedTextField(
                         value = quantityText,
@@ -914,7 +1066,7 @@ fun EditTransactionDialog(
                 onClick = {
                     val qty = quantityText.replace(',', '.').toDoubleOrNull() ?: 1.0
                     val prc = priceText.replace(',', '.').toDoubleOrNull() ?: 0.0
-                    onSave(qty, prc, dateTimestamp)
+                    onSave(qty, prc, dateTimestamp, noteText.trim())
                 }
             ) {
                 Text(stringResource(id = R.string.btn_save), color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
@@ -929,6 +1081,7 @@ fun EditTransactionDialog(
 }
 
 @Composable
+@Suppress("UNUSED_PARAMETER")
 fun TradingViewChart(
     symbol: String,
     chartData: List<Pair<Long, Double>>,
@@ -1221,34 +1374,35 @@ fun formatQuantity(value: Double): String {
 }
 
 fun formatIntegerValue(amount: Double, currency: String): String {
-    val isTry = currency.uppercase() in listOf("TRY", "TL")
-    val locale = when {
-        isTry -> java.util.Locale("tr", "TR")
-        currency.uppercase() == "EUR" -> java.util.Locale.GERMANY
-        else -> java.util.Locale.US
-    }
+    val locale = java.util.Locale.forLanguageTag("tr-TR")
     val nf = java.text.NumberFormat.getNumberInstance(locale) as java.text.DecimalFormat
     nf.applyPattern("#,##0")
-    val formatted = nf.format(kotlin.math.round(amount))
-    return "$formatted $currency"
+    val absFormatted = nf.format(kotlin.math.round(kotlin.math.abs(amount)))
+    val sign = if (amount < 0) "-" else ""
+    return when (currency.uppercase()) {
+        "TRY", "TL" -> "${sign}₺$absFormatted"
+        "USD" -> "${sign}\$$absFormatted"
+        "EUR" -> "${sign}€$absFormatted"
+        else -> "$sign$absFormatted $currency"
+    }
 }
 
 fun formatAssetDetailCurrency(amount: Double, currency: String, isMetal: Boolean = false): String {
-    val isTry = currency.uppercase() in listOf("TRY", "TL")
-    val locale = when {
-        isTry -> java.util.Locale("tr", "TR")
-        currency.uppercase() == "EUR" -> java.util.Locale.GERMANY
-        else -> java.util.Locale.US
-    }
+    val locale = java.util.Locale.forLanguageTag("tr-TR")
     val nf = java.text.NumberFormat.getNumberInstance(locale) as java.text.DecimalFormat
-    if (isMetal || amount % 1.0 == 0.0) {
+    val absFormatted = if (isMetal || amount % 1.0 == 0.0) {
         nf.applyPattern("#,##0")
-        val formatted = nf.format(kotlin.math.round(amount))
-        return "$formatted $currency"
+        nf.format(kotlin.math.round(kotlin.math.abs(amount)))
     } else {
         nf.applyPattern("#,##0.00###")
-        val formatted = nf.format(amount)
-        return "$formatted $currency"
+        nf.format(kotlin.math.abs(amount))
+    }
+    val sign = if (amount < 0) "-" else ""
+    return when (currency.uppercase()) {
+        "TRY", "TL" -> "${sign}₺$absFormatted"
+        "USD" -> "${sign}\$$absFormatted"
+        "EUR" -> "${sign}€$absFormatted"
+        else -> "$sign$absFormatted $currency"
     }
 }
 

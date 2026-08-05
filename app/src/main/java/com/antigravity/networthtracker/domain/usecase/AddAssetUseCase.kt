@@ -12,7 +12,8 @@ class AddAssetUseCase @Inject constructor(
         asset: Asset,
         initialQuantity: Double,
         initialPrice: Double,
-        purchaseDate: Long = System.currentTimeMillis()
+        purchaseDate: Long = System.currentTimeMillis(),
+        note: String = ""
     ): Result<Long> {
         if (asset.name.isBlank()) {
             return Result.failure(IllegalArgumentException("Varlık adı boş bırakılamaz."))
@@ -44,7 +45,8 @@ class AddAssetUseCase @Inject constructor(
                 assetId = assetId,
                 quantity = initialQuantity,
                 price = initialPrice,
-                date = purchaseDate
+                date = purchaseDate,
+                note = note
             )
             assetRepository.insertTransaction(initialTransaction)
             Result.success(assetId)

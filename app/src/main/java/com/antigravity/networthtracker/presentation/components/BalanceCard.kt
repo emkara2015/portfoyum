@@ -317,12 +317,7 @@ fun Sparkline(
 }
 
 fun formatUnitPrice(amount: Double, currency: String): String {
-    val isTry = currency.uppercase() in listOf("TRY", "TL")
-    val locale = when {
-        isTry -> java.util.Locale("tr", "TR")
-        currency.uppercase() == "EUR" -> java.util.Locale.GERMANY
-        else -> java.util.Locale.US
-    }
+    val locale = java.util.Locale.forLanguageTag("tr-TR")
     val nf = java.text.NumberFormat.getNumberInstance(locale) as java.text.DecimalFormat
     if (amount % 1.0 == 0.0) {
         nf.applyPattern("#,##0")
@@ -333,20 +328,14 @@ fun formatUnitPrice(amount: Double, currency: String): String {
     val sign = if (amount < 0) "-" else ""
     return when (currency.uppercase()) {
         "TRY", "TL" -> "${sign}₺$absFormatted"
-        "USD" -> "${sign}$absFormatted"
+        "USD" -> "${sign}\$$absFormatted"
         "EUR" -> "${sign}€$absFormatted"
         else -> "$sign$absFormatted $currency"
     }
 }
 
 fun formatCurrency(amount: Double, currency: String): String {
-    val isTry = currency.uppercase() in listOf("TRY", "TL")
-    val locale = when {
-        isTry -> java.util.Locale("tr", "TR")
-        currency.uppercase() == "EUR" -> java.util.Locale.GERMANY
-        else -> java.util.Locale.US
-    }
-    
+    val locale = java.util.Locale.forLanguageTag("tr-TR")
     val nf = java.text.NumberFormat.getNumberInstance(locale) as java.text.DecimalFormat
     nf.applyPattern("#,##0")
     val absFormatted = nf.format(kotlin.math.round(kotlin.math.abs(amount)))
@@ -354,7 +343,7 @@ fun formatCurrency(amount: Double, currency: String): String {
     
     return when (currency.uppercase()) {
         "TRY", "TL" -> "${sign}₺$absFormatted"
-        "USD" -> "${sign}$absFormatted"
+        "USD" -> "${sign}\$$absFormatted"
         "EUR" -> "${sign}€$absFormatted"
         else -> "$sign$absFormatted $currency"
     }

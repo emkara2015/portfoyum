@@ -431,6 +431,24 @@ fun DynamicAssetForm(
             if (state.selectedType == AssetType.METAL) {
                 PreciousMetalFormSection(state = state, viewModel = viewModel)
             } else if (isAutoUpdate) {
+                // Optional Note Input Field for Funds & Auto-update Assets (Revealed after symbol is selected)
+                OutlinedTextField(
+                    value = state.note,
+                    onValueChange = { viewModel.onNoteChange(it) },
+                    label = { Text(stringResource(id = R.string.field_note_label)) },
+                    placeholder = { Text(stringResource(id = R.string.field_note_placeholder), color = TextGraySecondary.copy(alpha = 0.5f)) },
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = customTextFieldColors(),
+                    singleLine = true
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = stringResource(id = R.string.field_note_helper),
+                    fontSize = 11.sp,
+                    color = TextGraySecondary,
+                    modifier = Modifier.padding(start = 4.dp, bottom = 16.dp)
+                )
+
                 // Quantity Input
                 OutlinedTextField(
                     value = state.quantity,

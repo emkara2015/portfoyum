@@ -17,6 +17,7 @@ data class AddAssetState(
     val selectedType: AssetType? = null,
     val name: String = "",
     val symbol: String = "",
+    val note: String = "",
     val quantity: String = "",
     val price: String = "",
     val currency: String = "TRY",

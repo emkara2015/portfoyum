@@ -5,5 +5,6 @@ data class Transaction(
     val assetId: Long,
     val quantity: Double,
     val price: Double,
-    val date: Long
+    val date: Long,
+    val note: String = ""
 )

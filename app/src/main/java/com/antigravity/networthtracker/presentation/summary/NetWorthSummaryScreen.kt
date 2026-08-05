@@ -380,7 +380,7 @@ private fun formatDate(dateStr: String): String {
     if (dateStr.isBlank()) return ""
     return try {
         val parser = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-        val formatter = SimpleDateFormat("dd MMM yyyy", Locale("tr"))
+        val formatter = SimpleDateFormat("dd MMM yyyy", Locale.forLanguageTag("tr-TR"))
         val date = parser.parse(dateStr)
         if (date != null) formatter.format(date) else dateStr
     } catch (e: Exception) {

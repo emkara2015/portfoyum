@@ -57,6 +57,8 @@
     <string name="dialog_delete_title">Varlığı Sil</string>
     <string name="dialog_delete_text">Bu varlığı ve tüm işlem geçmişini tamamen silmek istediğinize emin misiniz?</string>
     <string name="dialog_delete_confirm">Sil</string>
+    <string name="dialog_delete_tx_title">İşlemi Sil</string>
+    <string name="dialog_delete_tx_text">Bu işlemi silmek istediğinizden emin misiniz?</string>
     <string name="dialog_edit_tx_title">İşlemi Düzenle</string>
     <string name="dialog_select">Seç</string>
     
@@ -193,4 +195,9 @@
     <string name="yield_1y">1 Yıllık</string>
     <string name="yield_ytd">Yılbaşı</string>
     <string name="label_net_badge_item">Net (%%%1$s Stopaj)</string>
+    
+    <!-- Fund Note -->
+    <string name="field_note_label">Not (İsteğe Bağlı)</string>
+    <string name="field_note_placeholder">Örn: Kocamın hesabı, Ziraat hesabı vb.</string>
+    <string name="field_note_helper">Fonunuzla ilgili hatırlatıcı kişisel bir not ekleyebilirsiniz (İsteğe bağlı).</string>
 </resources>

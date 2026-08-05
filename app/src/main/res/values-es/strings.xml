@@ -57,6 +57,8 @@
     <string name="dialog_delete_title">Eliminar Activo</string>
     <string name="dialog_delete_text">¿Está seguro de que desea eliminar permanentemente este activo y todo su historial de transacciones?</string>
     <string name="dialog_delete_confirm">Eliminar</string>
+    <string name="dialog_delete_tx_title">Eliminar Transacción</string>
+    <string name="dialog_delete_tx_text">¿Estás seguro de que deseas eliminar esta transacción?</string>
     <string name="dialog_edit_tx_title">Editar Transacción</string>
     <string name="dialog_select">Seleccionar</string>
     

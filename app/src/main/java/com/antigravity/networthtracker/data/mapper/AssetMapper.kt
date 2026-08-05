@@ -39,7 +39,8 @@ fun TransactionEntity.toDomainTransaction(): Transaction {
         assetId = assetId,
         quantity = quantity,
         price = price,
-        date = date
+        date = date,
+        note = note
     )
 }
 
@@ -49,7 +50,8 @@ fun Transaction.toTransactionEntity(): TransactionEntity {
         assetId = assetId,
         quantity = quantity,
         price = price,
-        date = date
+        date = date,
+        note = note
     )
 }
 
