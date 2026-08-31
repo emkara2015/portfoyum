@@ -7,7 +7,6 @@ import requests
 
 
 supabase_url = "https://pxgbiedahlssklfjzwor.supabase.co/rest/v1/tefas_funds"
-fintables_catalog_url = "https://api.fintables.com/funds/"
 anon_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB4Z2JpZWRhaGxzc2tsZmp6d29yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ0NzM5OTQsImV4cCI6MjEwMDA0OTk5NH0.h5_IBFoAT1tFAw29lcWLsF1yC4GfoADSQ8XTSWCK6L0"
 
 patch_headers = {
@@ -69,39 +68,52 @@ def fetch_existing_rows():
 
 
 def fetch_catalog():
-    """Return the current catalog when available; never block a normal price sync."""
-    try:
-        response = requests.get(
-            fintables_catalog_url,
-            headers={**source_headers, "Accept": "application/json"},
-            timeout=20,
-        )
-        response.raise_for_status()
-        payload = response.json()
+    """Fetch today's prices from the official TEFAS bulk API.
 
-        if isinstance(payload, dict):
-            for key in ("data", "funds", "results"):
-                if isinstance(payload.get(key), list):
-                    payload = payload[key]
+    The old Fintables HTML/API endpoints return HTTP 403 from GitHub-hosted
+    runners.  TEFAS's redesigned API returns up to 1,000 rows per page and
+    supports both investment (YAT) and pension (EMK) funds.
+    """
+    try:
+        from tefasmak import fonlar_gunluk_detay
+
+        turkey_tz = datetime.timezone(datetime.timedelta(hours=3))
+        today = datetime.datetime.now(datetime.timezone.utc).astimezone(turkey_tz).strftime("%Y%m%d")
+        catalog = {}
+        page_size = 1000
+
+        for fund_type in ("YAT", "EMK"):
+            start = 1
+            while True:
+                rows = fonlar_gunluk_detay(
+                    fon_tipi=fund_type,
+                    bas_tarih=today,
+                    bit_tarih=today,
+                    bas_sira=start,
+                    bit_sira=start + page_size - 1,
+                )
+                if not rows:
                     break
 
-        if not isinstance(payload, list):
-            raise ValueError("catalog response is not a list")
+                for item in rows:
+                    code = normalize_symbol(item.get("fonKodu"))
+                    try:
+                        price = float(item.get("fiyat") or 0)
+                    except (TypeError, ValueError):
+                        price = 0.0
+                    if code and price > 0:
+                        catalog[code] = {
+                            "name": (item.get("fonUnvan") or code).strip(),
+                            "fund_type": fund_type,
+                            "price": price,
+                        }
 
-        catalog = {}
-        for item in payload:
-            if not isinstance(item, dict):
-                continue
-            code = normalize_symbol(item.get("code") or item.get("symbol"))
-            if not code:
-                continue
-            catalog[code] = {
-                "name": (item.get("title") or item.get("name") or code).strip(),
-                "fund_type": item.get("type"),
-            }
+                if len(rows) < page_size:
+                    break
+                start += page_size
 
         if not catalog:
-            raise ValueError("catalog response did not contain fund codes")
+            raise ValueError(f"TEFAS returned no prices for {today}")
         return catalog
     except Exception as exc:
         print(f"Catalog unavailable; existing codes will be preserved: {exc}")
@@ -163,40 +175,14 @@ def mark_failure(code, reason, existing_rows, catalog, timestamp):
 def process_fund(code, existing_rows, catalog):
     timestamp = now_iso()
     try:
-        response = requests.get(
-            f"https://fintables.com/fonlar/{code}",
-            headers=source_headers,
-            timeout=8,
-        )
-        if response.status_code != 200:
-            mark_failure(code, f"fintables_http_{response.status_code}", existing_rows, catalog, timestamp)
+        metadata = catalog.get(code)
+        if not metadata or metadata.get("price", 0) <= 0:
+            mark_failure(code, "tefas_price_missing", existing_rows, catalog, timestamp)
             return code, False
-
-        html = response.text
-
-        price_match = re.search(r'\\"price\\":\s*([0-9]+\.[0-9]+)', html)
-        price = float(price_match.group(1)) if price_match else 0.0
-        if price <= 0.0:
-            mark_failure(code, "fintables_price_missing", existing_rows, catalog, timestamp)
-            return code, False
-
-        tax_match = re.search(r'\\"tax\\":\s*([0-9\.]+)', html)
-        risk_match = re.search(r'\\"risk\\":\s*([0-9]+)', html)
-        y1m_match = re.search(r'\\"1m\\":\s*\{[^}]*\\"yield\\":\s*([0-9\.-]+)', html)
-        y3m_match = re.search(r'\\"3m\\":\s*\{[^}]*\\"yield\\":\s*([0-9\.-]+)', html)
-        y6m_match = re.search(r'\\"6m\\":\s*\{[^}]*\\"yield\\":\s*([0-9\.-]+)', html)
-        y1y_match = re.search(r'\\"1y\\":\s*\{[^}]*\\"yield\\":\s*([0-9\.-]+)', html)
-        ytd_match = re.search(r'\\"ytd\\":\s*\{[^}]*\\"yield\\":\s*([0-9\.-]+)', html)
+        price = float(metadata["price"])
 
         payload = {
             "price": price,
-            "tax_percent": float(tax_match.group(1)) * 100 if tax_match else 0.0,
-            "risk_level": int(risk_match.group(1)) if risk_match else None,
-            "yield_1m": float(y1m_match.group(1)) if y1m_match else None,
-            "yield_3m": float(y3m_match.group(1)) if y3m_match else None,
-            "yield_6m": float(y6m_match.group(1)) if y6m_match else None,
-            "yield_1y": float(y1y_match.group(1)) if y1y_match else None,
-            "yield_ytd": float(ytd_match.group(1)) if ytd_match else None,
             "updated_at": timestamp,
             "last_attempt_at": timestamp,
             "last_success_at": timestamp,
@@ -209,7 +195,6 @@ def process_fund(code, existing_rows, catalog):
         if code in existing_rows:
             ok = patch_existing(code, payload)
         else:
-            metadata = catalog.get(code, {}) if catalog else {}
             new_payload = {
                 "symbol": code,
                 "name": metadata.get("name", code),
@@ -250,7 +235,10 @@ def reconcile_catalog(existing_rows, catalog):
 existing_rows = fetch_existing_rows()
 catalog = fetch_catalog()
 catalog_codes = set(catalog) if catalog is not None else set()
-symbols = sorted(set(existing_rows) | catalog_codes)
+# Only process funds for which TEFAS published a price today. Existing rows
+# absent from today's catalog are reconciled below without being counted as
+# transient price-fetch failures.
+symbols = sorted(catalog_codes)
 print(f"Total symbols to process: {len(symbols)}")
 if catalog is not None:
     print(f"Catalog symbols discovered: {len(catalog)}")
