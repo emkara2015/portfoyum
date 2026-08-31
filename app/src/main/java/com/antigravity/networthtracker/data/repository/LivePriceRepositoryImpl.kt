@@ -393,8 +393,6 @@ class LivePriceRepositoryImpl @Inject constructor(
                 .url(url)
                 .header("apikey", SUPABASE_KEY)
                 .header("Authorization", "Bearer $SUPABASE_KEY")
-                .header("Cache-Control", "no-cache, no-store")
-                .header("Pragma", "no-cache")
                 .build()
 
             val response = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
@@ -473,8 +471,6 @@ class LivePriceRepositoryImpl @Inject constructor(
                 .url(url)
                 .header("apikey", SUPABASE_KEY)
                 .header("Authorization", "Bearer $SUPABASE_KEY")
-                .header("Cache-Control", "no-cache, no-store")
-                .header("Pragma", "no-cache")
                 .build()
 
             val response = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
