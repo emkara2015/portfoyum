@@ -276,3 +276,8 @@ print(f"\nFINISHED IN {elapsed:.1f} seconds!")
 print(f"Total updated/inserted: {success_count}, Failed/No-data: {failed_count}")
 if catalog is not None:
     print(f"Marked inactive after 3 catalog misses: {inactive_count}")
+
+# A green GitHub Actions run must mean that the database was actually updated.
+# The next scheduled run will retry transient source/API failures automatically.
+if failed_count:
+    raise SystemExit(f"TEFAS sync failed for {failed_count} fund(s)")
