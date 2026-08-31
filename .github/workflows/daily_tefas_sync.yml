@@ -1,6 +1,12 @@
 name: Daily TEFAŞ Funds Sync
 
 on:
+  push:
+    # Run automatically when this synchronizer or its schedule changes.
+    # The daily schedule below remains the normal trigger.
+    paths:
+      - '.github/workflows/daily_tefas_sync.yml'
+      - 'scripts/sync_tefas_funds.py'
   schedule:
     # GitHub recommends avoiding :00 because scheduled workflows can be delayed
     # during the top-of-hour load spike.  These run at :05/:20/:35/:50 TRT
