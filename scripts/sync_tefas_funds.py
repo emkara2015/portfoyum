@@ -123,11 +123,18 @@ def fetch_catalog():
 def patch_existing(code, payload):
     response = requests.patch(
         f"{supabase_url}?symbol=eq.{code}",
-        headers=patch_headers,
+        headers={**patch_headers, "Prefer": "return=representation"},
         json=payload,
         timeout=8,
     )
-    return response.status_code in (200, 204)
+    if response.status_code not in (200, 204):
+        return False
+    if not response.content:
+        return response.status_code == 204
+    try:
+        return bool(response.json())
+    except ValueError:
+        return False
 
 
 def upsert_new(code, payload):
@@ -135,12 +142,19 @@ def upsert_new(code, payload):
         supabase_url,
         headers={
             **patch_headers,
-            "Prefer": "resolution=merge-duplicates,return=minimal",
+            "Prefer": "resolution=merge-duplicates,return=representation",
         },
         json=payload,
         timeout=8,
     )
-    return response.status_code in (200, 201, 204)
+    if response.status_code not in (200, 201, 204):
+        return False
+    if not response.content:
+        return response.status_code == 204
+    try:
+        return bool(response.json())
+    except ValueError:
+        return False
 
 
 def catalog_fields(code, catalog, timestamp):
